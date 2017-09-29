@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
+    </parent>
+
+    <groupId>com.qianmi</groupId>
+    <artifactId>spring-boot-starter-rocketmq</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>Spring Boot Rocket Starter</name>
+    <description>Starter for messaging using Apache RocketMQ</description>
+
+    <organization>
+        <name>Jiangsu QianMi Network Technology Co., Ltd</name>
+        <url>http://wwww.qianmi.com</url>
+    </organization>
+
+    <properties>
+        <rocketmq-version>4.2.0-incubating-SNAPSHOT</rocketmq-version>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${rocketmq-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <username>${git.username}</username>
+                    <password>${git.password}</password>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <connection>
+            scm:git:http://git.dev.qianmi.com/commons/spring-boot-starter-rocketmq.git
+        </connection>
+        <developerConnection>
+            scm:git:http://git.dev.qianmi.com/commons/spring-boot-starter-rocketmq.git
+        </developerConnection>
+        <url>http://git.dev.qianmi.com/commons/spring-boot-starter-rocketmq.git</url>
+        <tag>spring-boot-starter-rocketmq-1.0.0-SNAPSHOT</tag>
+    </scm>
+
+
+    <repositories>
+        <repository>
+            <id>qianmi-snapshots</id>
+            <name>intranet public snapshots</name>
+            <url>http://nexus.dev.qianmi.com/nexus/content/repositories/snapshots</url>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>central</id>
+            <url>http://nexus.dev.qianmi.com/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
