@@ -1,5 +1,7 @@
 # spring-boot-starter-rocketmq
 
+[![Build Status](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq.svg?branch=master)](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq)
+
 帮助开发者在[Spring Boot](http://projects.spring.io/spring-boot/)中快速集成[RocketMQ](http://rocketmq.apache.org/)。支持Spring Message规范，方便开发者从其它MQ快速切换到RocketMQ。
 
 
