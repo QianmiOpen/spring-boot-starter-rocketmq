@@ -90,9 +90,6 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     @Setter
     private RocketMQListener rocketMQListener;
 
-    @Setter
-    private AdvancedConsumerConfiguration advancedConsumerConfiguration;
-
     private DefaultMQPushConsumer consumer;
 
     private Class messageType;
@@ -122,11 +119,6 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         // parse message type
         this.messageType = getMessageType();
         log.debug("msgType: {}", messageType.getName());
-
-        // provide an entryway to custom setting RocketMQ consumer
-        if (Objects.nonNull(advancedConsumerConfiguration)) {
-            advancedConsumerConfiguration.config(consumer);
-        }
 
         consumer.start();
         this.setStarted(true);
@@ -268,9 +260,11 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
                 throw new IllegalArgumentException("Property 'consumeMode' was wrong.");
         }
 
+        // provide an entryway to custom setting RocketMQ consumer
+        if(rocketMQListener instanceof RocketMQPushConsumerLifecycleListener){
+            ((RocketMQPushConsumerLifecycleListener)rocketMQListener).prepareStart(consumer);
+        }
+
     }
 
-    public abstract class AdvancedConsumerConfiguration {
-        abstract void config(DefaultMQPushConsumer consumer);
-    }
 }

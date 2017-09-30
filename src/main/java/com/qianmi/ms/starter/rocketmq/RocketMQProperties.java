@@ -39,17 +39,17 @@ public class RocketMQProperties {
         private int compressMsgBodyOverHowmuch = 1024 * 4;
 
         /**
+         * <p>
          * Maximum number of retry to perform internally before claiming sending failure in synchronous mode.
          * </p>
-         * <p>
          * This may potentially cause message duplication which is up to application developers to resolve.
          */
         private int retryTimesWhenSendFailed = 2;
 
         /**
+         * <p>
          * Maximum number of retry to perform internally before claiming sending failure in asynchronous mode.
          * </p>
-         * <p>
          * This may potentially cause message duplication which is up to application developers to resolve.
          */
         private int retryTimesWhenSendAsyncFailed = 2;
@@ -57,7 +57,7 @@ public class RocketMQProperties {
         /**
          * Indicate whether to retry another broker on sending failure internally.
          */
-        private boolean retryAnotherBrokerWhenNotStoreOK = false;
+        private boolean retryAnotherBrokerWhenNotStoreOk = false;
 
         /**
          * Maximum allowed message size in bytes.
