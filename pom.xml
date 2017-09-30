@@ -10,6 +10,7 @@
         <version>1.5.7.RELEASE</version>
     </parent>
 
+    <groupId>com.qianmi</groupId>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
