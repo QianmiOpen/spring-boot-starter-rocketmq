@@ -1,7 +1,6 @@
 # spring-boot-starter-rocketmq
 
 [![Maven Central](https://img.shields.io/badge/maven%20central-1.0.0--RELEASE-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.qianmi%22%20AND%20a%3A%22spring-boot-starter-rocketmq%22)
-
 [![Build Status](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq.svg?branch=master)](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq)
 
 帮助开发者在[Spring Boot](http://projects.spring.io/spring-boot/)中快速集成[RocketMQ](http://rocketmq.apache.org/)。支持Spring Message规范，方便开发者从其它MQ快速切换到RocketMQ。
