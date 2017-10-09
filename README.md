@@ -26,7 +26,7 @@
 <dependency>
     <group>com.qianmi</group>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
-    <version>1.0.0-RELEASE</version>
+    <version>1.0.1-RELEASE</version>
 </dependency>
 ```
 
@@ -150,7 +150,7 @@ public class ConsumerApplication{
     可以通过重载的`xxxSend(String destination, Message<?> msg, ...)`方法来发送消息，指定`msg`的`headers`来完成。示例：
     
     ```java
-    Message<?> message =MessageBuilder.withPayload(payload).setHeader(MessageConst.PROPERTY_KEYS, msgId).build();
+    Message<?> message = MessageBuilder.withPayload(payload).setHeader(MessageConst.PROPERTY_KEYS, msgId).build();
     rocketMQTemplate.send("topic-test", message);
     ```
 
