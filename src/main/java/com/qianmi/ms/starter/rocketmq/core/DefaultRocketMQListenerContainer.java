@@ -258,7 +258,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         consumer = new DefaultMQPushConsumer(consumerGroup);
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeThreadMax(consumeThreadMax);
-        if(consumeThreadMax < consumer.getConsumeThreadMin()){
+        if (consumeThreadMax < consumer.getConsumeThreadMin()) {
             consumer.setConsumeThreadMin(consumeThreadMax);
         }
 
