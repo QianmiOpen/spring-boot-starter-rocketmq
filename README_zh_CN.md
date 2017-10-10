@@ -1,30 +1,30 @@
 # spring-boot-starter-rocketmq
 
-[中文](./README_zh_CN.md)
+[English](./README.md)
 
 [![Maven Central](https://img.shields.io/badge/maven%20central-1.0.1--RELEASE-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.qianmi%22%20AND%20a%3A%22spring-boot-starter-rocketmq%22)
 [![Build Status](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq.svg?branch=master)](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-Help developers quickly integrate [RocketMQ](http://rocketmq.apache.org/) in [Spring Boot](http://projects.spring.io/spring-boot/). Support the Spring Message specification to facilitate developers to quickly switch from other MQ to RocketMQ.
+帮助开发者在[Spring Boot](http://projects.spring.io/spring-boot/)中快速集成[RocketMQ](http://rocketmq.apache.org/)。支持Spring Message规范，方便开发者从其它MQ快速切换到RocketMQ。
 
 
-Features:
+功能特性：
 
-- [x] synchronous transmission
-- [x] synchronous ordered transmission
-- [x] asynchronous transmission
-- [x] asynchronous ordered transmission
-- [x] orderly consume
-- [x] concurrently consume(broadcasting/clustering)
-- [ ] One-way transmission
-- [ ] transaction transmission
-- [ ] Pull consume 
+- [x] 同步发送
+- [x] 同步顺序发送
+- [x] 异步发送
+- [x] 异步顺序发送
+- [x] 顺序消费
+- [x] 并发消费（广播/集群）
+- [ ] One-way方式发送
+- [ ] 事务方式发送
+- [ ] Pull消费 
 
 ## Quick Start
 
 ```xml
-<!--add dependency in pom.xml-->
+<!--在pom.xml中添加依赖-->
 <dependency>
     <group>com.qianmi</group>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
@@ -32,7 +32,7 @@ Features:
 </dependency>
 ```
 
-### Produce Message
+### 发送消息
 
 ```properties
 ## application.properties
@@ -68,7 +68,7 @@ public class ProducerApplication implements CommandLineRunner{
 }
 ```
 
-> More relevant configurations for produce:
+> 更多发送相关配置
 >
 > ```properties
 > spring.rocketmq.producer.retry-times-when-send-async-failed=0
@@ -79,7 +79,7 @@ public class ProducerApplication implements CommandLineRunner{
 > spring.rocketmq.producer.retry-times-when-send-failed=2
 > ```
 
-### Consume Message
+### 接收消息
 
 ```properties
 ## application.properties
@@ -115,57 +115,56 @@ public class ConsumerApplication{
 ```
 
 
-> More relevant configurations for consume:
+> 更多消费相关配置
 >
 > see: [RocketMQMessageListener](./src/main/java/com/qianmi/ms/starter/rocketmq/annotation/RocketMQMessageListener.java) 
 
 
 ## FAQ
 
-1. How to connected many `nameserver` on production environment？
+1. 生产环境有多个`nameserver`该如何连接？
 
-    `spring.rocketmq.name-server` support the configuration of multiple `nameserver`, separated by `;`. For example: `172.19.0.1: 9876; 172.19.0.2: 9876`
+   `spring.rocketmq.name-server`支持配置多个`nameserver`地址，采用`;`分隔即可。例如：`172.19.0.1:9876;172.19.0.2:9876`
 
-1. When was `rocketMQTemplate` destroyed?
+1. `rocketMQTemplate`在什么时候被销毁？
 
-    Developers do not need to manually execute the `rocketMQTemplate.destroy ()` method when using `rocketMQTemplate` to send a message in the project, and` rocketMQTemplate` will be destroyed automatically when the spring container is destroyed.
+    开发者在项目中使用`rocketMQTemplate`发送消息时，不需要手动执行`rocketMQTemplate.destroy()`方法， `rocketMQTemplate`会在spring容器销毁时自动销毁。
 
-1. start exception：`Caused by: org.apache.rocketmq.client.exception.MQClientException: The consumer group[xxx] has been created before, specify another name please`
+1. 启动报错：`Caused by: org.apache.rocketmq.client.exception.MQClientException: The consumer group[xxx] has been created before, specify another name please`
 
-   RocketMQ in the design do not want a consumer to deal with multiple types of messages at the same time, so the same `consumerGroup` consumer responsibility should be the same, do not do different things (that is, consumption of multiple topics). Suggested `consumerGroup` and` topic` one correspondence.
+    RocketMQ在设计时就不希望一个消费者同时处理多个类型的消息，因此同一个`consumerGroup`下的consumer职责应该是一样的，不要干不同的事情（即消费多个topic）。建议`consumerGroup`与`topic`一一对应。
     
-1. How is the message content body being serialized and deserialized?
+1. 发送的消息内容体是如何被序列化与反序列化的？
 
-    RocketMQ's message body is stored as `byte []`. When the business system message content body if it is `java.lang.String` type, unified in accordance with` utf-8` code into `byte []`; If the business system message content is not `java.lang.String` Type, then use [jackson-databind](https://github.com/FasterXML/jackson-databind) serialized into the `JSON` format string, and then unified in accordance with` utf-8` code into `byte [] `.
+    RocketMQ的消息体都是以`byte[]`方式存储。当业务系统的消息内容体如果是`java.lang.String`类型时，统一按照`utf-8`编码转成`byte[]`；如果业务系统的消息内容为非`java.lang.String`类型，则采用[jackson-databind](https://github.com/FasterXML/jackson-databind)序列化成`JSON`格式的字符串之后，再统一按照`utf-8`编码转成`byte[]`。
     
-1. How do I specify the `tags` for topic?
+1. 如何指定topic的`tags`?
 
-    RocketMQ best practice recommended: an application as much as possible with one Topic, the message sub-type with `tags` to identify,` tags` can be set by the application free.
+    RocketMQ的最佳实践中推荐：一个应用尽可能用一个Topic，消息子类型用`tags`来标识，`tags`可以由应用自由设置。
+    在使用`rocketMQTemplate`发送消息时，通过设置发送方法的`destination`参数来设置消息的目的地，`destination`的格式为`topicName:tagName`，`:`前面表示topic的名称，后面表示`tags`名称。
     
-    When you use `rocketMQTemplate` to send a message, set the destination of the message by setting the` destination` parameter of the send method. The `destination` format is `topicName:tagName`, `:` Precedes the name of the topic, followed by the `tags` name.
-    
-    > Note:
+    > 注意:
     >
-    > `tags` looks a complex, but when sending a message , the destination can only specify one topic under a `tag`, can not specify multiple.
+    > `tags`从命名来看像是一个复数，但发送消息时，目的地只能指定一个topic下的一个`tag`，不能指定多个。
     
-1. How do I set the message's `key` when sending a message?
+1. 发送消息时如何设置消息的`key`?
 
-    You can send a message by overloading method like `xxxSend(String destination, Message<?> msg, ...)`, setting `headers` of `msg`. for example:
+    可以通过重载的`xxxSend(String destination, Message<?> msg, ...)`方法来发送消息，指定`msg`的`headers`来完成。示例：
     
     ```java
     Message<?> message = MessageBuilder.withPayload(payload).setHeader(MessageConst.PROPERTY_KEYS, msgId).build();
     rocketMQTemplate.send("topic-test", message);
     ```
 
-    Similarly, you can also set the message `FLAG`,` WAIT_STORE_MSG_OK` and some other user-defined other header information according to the above method.
+    同理还可以根据上面的方式来设置消息的`FLAG`、`WAIT_STORE_MSG_OK`以及一些用户自定义的其它头信息。
     
-    > Note:
+    > 注意:
     >
-    > In the case of converting Spring's Message to RocketMQ's Message, to prevent the `header` information from conflicting with RocketMQ's system properties, the prefix `USERS_` was added in front of all `header` names. So if you want to get a custom message header when consuming, please pass through the key at the beginning of `USERS_` in the header.
+    > 在将Spring的Message转化为RocketMQ的Message时，为防止`header`信息与RocketMQ的系统属性冲突，在所有`header`的名称前面都统一添加了前缀`USERS_`。因此在消费时如果想获取自定义的消息头信息，请遍历头信息中以`USERS_`开头的key即可。
     
-1. When consume message, in addition to get the message `payload`, but also want to get RocketMQ message of other system attributes, how to do?
+1. 消费消息时，除了获取消息`payload`外，还想获取RocketMQ消息的其它系统属性，需要怎么做？
 
-    Consumers in the realization of `RocketMQListener` interface, only need to be generic for the` MessageExt` can, so in the `onMessage` method will receive RocketMQ native 'MessageExt` message.
+    消费者在实现`RocketMQListener`接口时，只需要起泛型为`MessageExt`即可，这样在`onMessage`方法将接收到RocketMQ原生的`MessageExt`消息。
     
     ```java
     @Slf4j
@@ -178,10 +177,10 @@ public class ConsumerApplication{
     }
     ```
     
-1. How do I specify where consumers start consuming messages?
+1. 如何指定消费者从哪开始消费消息，或开始消费的位置？
 
-    The default consume offset please refer: [RocketMQ FAQ](http://rocketmq.apache.org/docs/faq/).
-    To customize the consumer's starting location, simply add a `RocketMQPushConsumerLifecycleListener` interface implementation to the consumer class. Examples are as follows:
+    消费者默认开始消费的位置请参考：[RocketMQ FAQ](http://rocketmq.apache.org/docs/faq/)。
+    若想自定义消费者开始的消费位置，只需在消费者类添加一个`RocketMQPushConsumerLifecycleListener`接口的实现即可。 示例如下：
     
     ```java
     @Slf4j
@@ -202,4 +201,4 @@ public class ConsumerApplication{
     }
     ```
     
-    Similarly, any other configuration on `DefaultMQPushConsumer` can be done in the same way as above.
+    同理，任何关于`DefaultMQPushConsumer`的更多其它其它配置，都可以采用上述方式来完成。
