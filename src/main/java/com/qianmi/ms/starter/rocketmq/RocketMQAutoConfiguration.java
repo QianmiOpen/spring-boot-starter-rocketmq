@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.qianmi.ms.starter.rocketmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -5,6 +22,10 @@ import com.qianmi.ms.starter.rocketmq.annotation.RocketMQMessageListener;
 import com.qianmi.ms.starter.rocketmq.core.DefaultRocketMQListenerContainer;
 import com.qianmi.ms.starter.rocketmq.core.RocketMQListener;
 import com.qianmi.ms.starter.rocketmq.core.RocketMQTemplate;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.impl.MQClientAPIImpl;
@@ -30,14 +51,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
- * RocketMqAutoConfiguration
- * Created by aqlu on 2017/9/27.
+ * RocketMqAutoConfiguration Created by aqlu on 2017/9/27.
  */
 @Configuration
 @EnableConfigurationProperties(RocketMQProperties.class)
@@ -68,7 +83,6 @@ public class RocketMQAutoConfiguration {
         return producer;
     }
 
-
     @Bean
     @ConditionalOnClass(ObjectMapper.class)
     @ConditionalOnMissingBean(name = "rocketMQMessageObjectMapper")
@@ -80,9 +94,9 @@ public class RocketMQAutoConfiguration {
     @ConditionalOnBean(DefaultMQProducer.class)
     @ConditionalOnMissingBean(name = "rocketMQTemplate")
     public RocketMQTemplate rocketMQTemplate(DefaultMQProducer mqProducer,
-                                             @Autowired(required = false)
-                                             @Qualifier("rocketMQMessageObjectMapper")
-                                                     ObjectMapper objectMapper) {
+        @Autowired(required = false)
+        @Qualifier("rocketMQMessageObjectMapper")
+            ObjectMapper objectMapper) {
         RocketMQTemplate rocketMQTemplate = new RocketMQTemplate();
         rocketMQTemplate.setProducer(mqProducer);
         if (Objects.nonNull(objectMapper)) {
@@ -115,7 +129,7 @@ public class RocketMQAutoConfiguration {
 
         @Autowired(required = false)
         public ListenerContainerConfiguration(
-                @Qualifier("rocketMQMessageObjectMapper") ObjectMapper objectMapper) {
+            @Qualifier("rocketMQMessageObjectMapper") ObjectMapper objectMapper) {
             this.objectMapper = objectMapper;
         }
 

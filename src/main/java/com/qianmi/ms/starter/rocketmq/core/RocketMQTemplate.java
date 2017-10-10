@@ -1,7 +1,27 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.qianmi.ms.starter.rocketmq.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.Charset;
+import java.util.Map;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +43,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
 
-import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.Objects;
-
-
 /**
- * Helper class for RocketMQ sending Messages
- * Created by aqlu on 2017/9/28.
+ * Helper class for RocketMQ sending Messages Created by aqlu on 2017/9/28.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 @Slf4j
@@ -56,7 +70,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步发送消息
      *
      * @param destination formats: `topicName:tags`
-     * @param message     {@link org.springframework.messaging.Message}
+     * @param message {@link org.springframework.messaging.Message}
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Message<?> message) {
@@ -67,8 +81,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步发送消息，可指定发送超时时间
      *
      * @param destination formats: `topicName:tags`
-     * @param message     {@link org.springframework.messaging.Message}
-     * @param timeout     send timeout with millis
+     * @param message {@link org.springframework.messaging.Message}
+     * @param timeout send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Message<?> message, long timeout) {
@@ -94,7 +108,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步发送消息，可指定发送超时时间
      *
      * @param destination formats: `topicName:tags`
-     * @param payload     the Object to use as payload
+     * @param payload the Object to use as payload
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Object payload) {
@@ -105,8 +119,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步发送消息，可指定发送超时时间
      *
      * @param destination formats: `topicName:tags`
-     * @param payload     the Object to use as payload
-     * @param timeout     send timeout with millis
+     * @param payload the Object to use as payload
+     * @param timeout send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Object payload, long timeout) {
@@ -118,8 +132,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步有序发送消息
      *
      * @param destination formats: `topicName:tags`
-     * @param message     {@link org.springframework.messaging.Message}
-     * @param hashKey     use this key to select queue. for example: orderId, productId ...
+     * @param message {@link org.springframework.messaging.Message}
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Message<?> message, String hashKey) {
@@ -130,9 +144,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步有序发送消息，可指定发送超时时间
      *
      * @param destination formats: `topicName:tags`
-     * @param message     {@link org.springframework.messaging.Message}
-     * @param hashKey     use this key to select queue. for example: orderId, productId ...
-     * @param timeout     send timeout with millis
+     * @param message {@link org.springframework.messaging.Message}
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param timeout send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Message<?> message, String hashKey, long timeout) {
@@ -144,7 +158,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
         try {
             long now = System.currentTimeMillis();
             org.apache.rocketmq.common.message.Message rocketMsg = convertToRocketMsg(destination, message);
-            SendResult sendResult =  producer.send(rocketMsg, messageQueueSelector, hashKey, timeout);
+            SendResult sendResult = producer.send(rocketMsg, messageQueueSelector, hashKey, timeout);
             long costTime = System.currentTimeMillis() - now;
             log.info("send message cost: {} ms, msgId:{}", costTime, sendResult.getMsgId());
             return sendResult;
@@ -158,8 +172,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步有序发送消息
      *
      * @param destination formats: `topicName:tags`
-     * @param payload     the Object to use as payload
-     * @param hashKey     use this key to select queue. for example: orderId, productId ...
+     * @param payload the Object to use as payload
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Object payload, String hashKey) {
@@ -170,9 +184,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * 同步有序发送消息，可指定发送超时时间
      *
      * @param destination formats: `topicName:tags`
-     * @param payload     the Object to use as payload
-     * @param hashKey     use this key to select queue. for example: orderId, productId ...
-     * @param timeout     send timeout with millis
+     * @param payload the Object to use as payload
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param timeout send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Object payload, String hashKey, long timeout) {
@@ -183,10 +197,10 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步发送消息，可指定发送超时时间
      *
-     * @param destination  formats: `topicName:tags`
-     * @param message      {@link org.springframework.messaging.Message}
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
      * @param sendCallback {@link SendCallback}
-     * @param timeout      send timeout with millis
+     * @param timeout send timeout with millis
      */
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback, long timeout) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
@@ -203,12 +217,11 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
         }
     }
 
-
     /**
      * 异步发送消息
      *
-     * @param destination  formats: `topicName:tags`
-     * @param message      {@link org.springframework.messaging.Message}
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback) {
@@ -218,10 +231,10 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步发送消息，可指定发送超时时间
      *
-     * @param destination  formats: `topicName:tags`
-     * @param payload      the Object to use as payload
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
      * @param sendCallback {@link SendCallback}
-     * @param timeout      send timeout with millis
+     * @param timeout send timeout with millis
      */
     public void asyncSend(String destination, Object payload, SendCallback sendCallback, long timeout) {
         Message<?> message = this.doConvert(payload, null, null);
@@ -231,8 +244,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步发送消息
      *
-     * @param destination  formats: `topicName:tags`
-     * @param payload      the Object to use as payload
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSend(String destination, Object payload, SendCallback sendCallback) {
@@ -242,13 +255,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步有序发送消息，可指定发送超时时间
      *
-     * @param destination  formats: `topicName:tags`
-     * @param message      {@link org.springframework.messaging.Message}
-     * @param hashKey      use this key to select queue. for example: orderId, productId ...
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
-     * @param timeout      send timeout with millis
+     * @param timeout send timeout with millis
      */
-    public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback, long timeout) {
+    public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback,
+        long timeout) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
             log.info("asyncSendOrderly failed. destination:{}, message is null ", destination);
             throw new IllegalArgumentException("`message` and `message.payload` cannot be null");
@@ -266,9 +280,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步有序发送消息
      *
-     * @param destination  formats: `topicName:tags`
-     * @param message      {@link org.springframework.messaging.Message}
-     * @param hashKey      use this key to select queue. for example: orderId, productId ...
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback) {
@@ -278,9 +292,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步有序发送消息
      *
-     * @param destination  formats: `topicName:tags`
-     * @param payload      the Object to use as payload
-     * @param hashKey      use this key to select queue. for example: orderId, productId ...
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSendOrderly(String destination, Object payload, String hashKey, SendCallback sendCallback) {
@@ -290,13 +304,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * 异步有序发送消息，可指定发送超时时间
      *
-     * @param destination  formats: `topicName:tags`
-     * @param payload      the Object to use as payload
-     * @param hashKey      use this key to select queue. for example: orderId, productId ...
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
-     * @param timeout      send timeout with millis
+     * @param timeout send timeout with millis
      */
-    public void asyncSendOrderly(String destination, Object payload, String hashKey, SendCallback sendCallback, long timeout) {
+    public void asyncSendOrderly(String destination, Object payload, String hashKey, SendCallback sendCallback,
+        long timeout) {
         Message<?> message = this.doConvert(payload, null, null);
         asyncSendOrderly(destination, message, hashKey, sendCallback, timeout);
     }
@@ -315,7 +330,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Convert spring message to rocketMQ message
      *
      * @param destination formats: `topicName:tags`
-     * @param message     {@link org.springframework.messaging.Message}
+     * @param message {@link org.springframework.messaging.Message}
      * @return instance of {@link org.apache.rocketmq.common.message.Message}
      */
     private org.apache.rocketmq.common.message.Message convertToRocketMsg(String destination, Message<?> message) {
@@ -366,12 +381,12 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
             rocketMsg.setWaitStoreMsgOK(waitStoreMsgOK);
 
             headers.entrySet().stream()
-                    .filter(entry -> !Objects.equals(entry.getKey(), MessageConst.PROPERTY_KEYS)
-                            && !Objects.equals(entry.getKey(), "FLAG")
-                            && !Objects.equals(entry.getKey(), "WAIT_STORE_MSG_OK")) // exclude "KEYS", "FLAG", "WAIT_STORE_MSG_OK"
-                    .forEach(entry -> {
-                        rocketMsg.putUserProperty("USERS_" + entry.getKey(), String.valueOf(entry.getValue())); // add other properties with prefix "USERS_"
-                    });
+                .filter(entry -> !Objects.equals(entry.getKey(), MessageConst.PROPERTY_KEYS)
+                    && !Objects.equals(entry.getKey(), "FLAG")
+                    && !Objects.equals(entry.getKey(), "WAIT_STORE_MSG_OK")) // exclude "KEYS", "FLAG", "WAIT_STORE_MSG_OK"
+                .forEach(entry -> {
+                    rocketMsg.putUserProperty("USERS_" + entry.getKey(), String.valueOf(entry.getValue())); // add other properties with prefix "USERS_"
+                });
 
         }
 
@@ -408,7 +423,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
 
     @Override
     public void destroy() throws Exception {
-        if(Objects.nonNull(producer)) {
+        if (Objects.nonNull(producer)) {
             producer.shutdown();
         }
     }

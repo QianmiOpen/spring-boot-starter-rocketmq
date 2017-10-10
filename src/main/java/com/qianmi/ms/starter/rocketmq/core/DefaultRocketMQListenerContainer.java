@@ -1,29 +1,49 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.qianmi.ms.starter.rocketmq.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qianmi.ms.starter.rocketmq.enums.ConsumeMode;
 import com.qianmi.ms.starter.rocketmq.enums.SelectorType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.MessageSelector;
-import org.apache.rocketmq.client.consumer.listener.*;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Objects;
-
 /**
- * AbstractRocketMQConsumer
- * Created by aqlu on 2017/9/28.
+ * AbstractRocketMQConsumer Created by aqlu on 2017/9/28.
  */
 @SuppressWarnings("WeakerAccess")
 @Slf4j
@@ -34,9 +54,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     private long suspendCurrentQueueTimeMillis = 1000;
 
     /**
-     * Message consume retry strategy<br>
-     * -1,no retry,put into DLQ directly<br>
-     * 0,broker control retry frequency<br>
+     * Message consume retry strategy<br> -1,no retry,put into DLQ directly<br> 0,broker control retry frequency<br>
      * >0,client control retry frequency
      */
     @Setter
@@ -97,7 +115,6 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     public void setupMessageListener(RocketMQListener rocketMQListener) {
         this.rocketMQListener = rocketMQListener;
     }
-
 
     @Override
     public void destroy() throws Exception {
@@ -170,7 +187,6 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         }
     }
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
         start();
@@ -179,14 +195,14 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     @Override
     public String toString() {
         return "DefaultRocketMQListenerContainer{" +
-                "consumerGroup='" + consumerGroup + '\'' +
-                ", nameServer='" + nameServer + '\'' +
-                ", topic='" + topic + '\'' +
-                ", consumeMode=" + consumeMode +
-                ", selectorType=" + selectorType +
-                ", selectorExpress='" + selectorExpress + '\'' +
-                ", messageModel=" + messageModel +
-                '}';
+            "consumerGroup='" + consumerGroup + '\'' +
+            ", nameServer='" + nameServer + '\'' +
+            ", topic='" + topic + '\'' +
+            ", consumeMode=" + consumeMode +
+            ", selectorType=" + selectorType +
+            ", selectorExpress='" + selectorExpress + '\'' +
+            ", messageModel=" + messageModel +
+            '}';
     }
 
     @SuppressWarnings("unchecked")
@@ -267,8 +283,8 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         }
 
         // provide an entryway to custom setting RocketMQ consumer
-        if(rocketMQListener instanceof RocketMQPushConsumerLifecycleListener){
-            ((RocketMQPushConsumerLifecycleListener)rocketMQListener).prepareStart(consumer);
+        if (rocketMQListener instanceof RocketMQPushConsumerLifecycleListener) {
+            ((RocketMQPushConsumerLifecycleListener) rocketMQListener).prepareStart(consumer);
         }
 
     }
