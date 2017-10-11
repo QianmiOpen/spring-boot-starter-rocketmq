@@ -2,7 +2,7 @@
 
 [English](./README.md)
 
-[![Maven Central](https://img.shields.io/badge/maven%20central-1.0.1--RELEASE-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.qianmi%22%20AND%20a%3A%22spring-boot-starter-rocketmq%22)
+[![Maven Central](https://img.shields.io/badge/maven%20central-1.0.2--RELEASE-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.qianmi%22%20AND%20a%3A%22spring-boot-starter-rocketmq%22)
 [![Build Status](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq.svg?branch=master)](https://travis-ci.org/QianmiOpen/spring-boot-starter-rocketmq)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -28,7 +28,7 @@
 <dependency>
     <group>com.qianmi</group>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
-    <version>1.0.1-RELEASE</version>
+    <version>1.0.2-RELEASE</version>
 </dependency>
 ```
 
