@@ -67,7 +67,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     private MessageQueueSelector messageQueueSelector = new SelectMessageQueueByHash();
 
     /**
-     * 同步发送消息
+     * <p> Send message in synchronous mode. This method returns only when the sending procedure totally completes.
+     * Reliable synchronous transmission is used in extensive scenes, such as important notification messages, SMS
+     * notification, SMS marketing system, etc.. </p>
+     *
+     * <strong>Warn:</strong> this method has internal retry-mechanism, that is, internal implementation will retry
+     * {@link DefaultMQProducer#getRetryTimesWhenSendFailed} times before claiming failure. As a result, multiple
+     * messages may potentially delivered to broker(s). It's up to the application developers to resolve potential
+     * duplication issue.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -78,7 +85,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步发送消息，可指定发送超时时间
+     * Same to {@link #syncSend(String, Message)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -105,7 +112,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步发送消息，可指定发送超时时间
+     * Same to {@link #syncSend(String, Message)}.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -116,7 +123,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步发送消息，可指定发送超时时间
+     * Same to {@link #syncSend(String, Object)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -129,7 +136,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步有序发送消息
+     * Same to {@link #syncSend(String, Message)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -141,7 +148,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步有序发送消息，可指定发送超时时间
+     * Same to {@link #syncSendOrderly(String, Message, String)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -169,7 +176,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步有序发送消息
+     * Same to {@link #syncSend(String, Object)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -181,7 +188,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 同步有序发送消息，可指定发送超时时间
+     * Same to {@link #syncSendOrderly(String, Object, String)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -195,7 +202,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步发送消息，可指定发送超时时间
+     * Same to {@link #asyncSend(String, Message, SendCallback)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -218,7 +225,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步发送消息
+     * <p> Send message to broker asynchronously. asynchronous transmission is generally used in response time sensitive
+     * business scenarios. </p>
+     *
+     * This method returns immediately. On sending completion, <code>sendCallback</code> will be executed.
+     *
+     * Similar to {@link #syncSend(String, Object)}, internal implementation would potentially retry up to {@link
+     * DefaultMQProducer#getRetryTimesWhenSendAsyncFailed} times before claiming sending failure, which may yield
+     * message duplication and application developers are the one to resolve this potential issue.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -229,7 +243,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步发送消息，可指定发送超时时间
+     * Same to {@link #asyncSend(String, Object, SendCallback)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -242,7 +256,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步发送消息
+     * Same to {@link #asyncSend(String, Message, SendCallback)}.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -253,7 +267,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步有序发送消息，可指定发送超时时间
+     * Same to {@link #asyncSendOrderly(String, Message, String, SendCallback)} with send timeout specified in
+     * addition.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -278,7 +293,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步有序发送消息
+     * Same to {@link #asyncSend(String, Message, SendCallback)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
      * @param message {@link org.springframework.messaging.Message}
@@ -290,7 +305,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步有序发送消息
+     * Same to {@link #asyncSendOrderly(String, Message, String, SendCallback)}.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -302,7 +317,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     /**
-     * 异步有序发送消息，可指定发送超时时间
+     * Same to {@link #asyncSendOrderly(String, Object, String, SendCallback)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
      * @param payload the Object to use as payload
@@ -314,6 +329,74 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
         long timeout) {
         Message<?> message = this.doConvert(payload, null, null);
         asyncSendOrderly(destination, message, hashKey, sendCallback, timeout);
+    }
+
+    /**
+     * Similar to <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a>, this method won't wait for
+     * acknowledgement from broker before return. Obviously, it has maximums throughput yet potentials of message loss.
+     *
+     * One-way transmission is used for cases requiring moderate reliability, such as log collection.
+     *
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
+     */
+    public void sendOneWay(String destination, Message<?> message) {
+        if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
+            log.info("sendOneWay failed. destination:{}, message is null ", destination);
+            throw new IllegalArgumentException("`message` and `message.payload` cannot be null");
+        }
+
+        try {
+            org.apache.rocketmq.common.message.Message rocketMsg = convertToRocketMsg(destination, message);
+            producer.sendOneway(rocketMsg);
+        } catch (Exception e) {
+            log.info("sendOneWay failed. destination:{}, message:{} ", destination, message);
+            throw new MessagingException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Same to {@link #sendOneWay(String, Message)}
+     *
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
+     */
+    public void sendOneWay(String destination, Object payload) {
+        Message<?> message = this.doConvert(payload, null, null);
+        sendOneWay(destination, message);
+    }
+
+    /**
+     * Same to {@link #sendOneWay(String, Message)} with send orderly with hashKey by specified.
+     *
+     * @param destination formats: `topicName:tags`
+     * @param message {@link org.springframework.messaging.Message}
+     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     */
+    public void sendOneWayOrderly(String destination, Message<?> message, String hashKey) {
+        if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
+            log.info("sendOneWayOrderly failed. destination:{}, message is null ", destination);
+            throw new IllegalArgumentException("`message` and `message.payload` cannot be null");
+        }
+
+        try {
+            org.apache.rocketmq.common.message.Message rocketMsg = convertToRocketMsg(destination, message);
+            producer.sendOneway(rocketMsg, messageQueueSelector, hashKey);
+        } catch (Exception e) {
+            log.info("sendOneWayOrderly failed. destination:{}, message:{}", destination, message);
+            throw new MessagingException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Same to {@link #sendOneWayOrderly(String, Message, String)}
+     *
+     * @param destination formats: `topicName:tags`
+     * @param payload the Object to use as payload
+     */
+    public void sendOneWayOrderly(String destination, Object payload, String hashKey) {
+        Message<?> message = this.doConvert(payload, null, null);
+        sendOneWayOrderly(destination, message, hashKey);
     }
 
     public void afterPropertiesSet() throws Exception {
