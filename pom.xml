@@ -16,8 +16,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -28,7 +27,7 @@
 
     <groupId>com.qianmi</groupId>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2-RELEASE</version>
 
     <name>Spring Boot Rocket Starter</name>
     <description>Starter for messaging using Apache RocketMQ</description>
@@ -115,7 +114,7 @@
 
 
     <scm>
-        <tag>master</tag>
+        <tag>1.0.2-RELEASE</tag>
         <connection>scm:git:git@github.com:QianmiOpen/spring-boot-starter-rocketmq.git</connection>
         <developerConnection>scm:git:git@github.com:QianmiOpen/spring-boot-starter-rocketmq.git</developerConnection>
         <url>git@github.com:QianmiOpen/spring-boot-starter-rocketmq.git</url>
