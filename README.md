@@ -36,9 +36,13 @@ Features:
 
 ```properties
 ## application.properties
-spring.rocketmq.name-server=172.19.0.1:9876
+spring.rocketmq.name-server=127.0.0.1:9876
 spring.rocketmq.producer.group=my-group
 ```
+
+> Note:
+> 
+> Maybe you need change `127.0.0.1:9876` with your real NameServer address for RocketMQ
 
 ```java
 @SpringBootApplication
@@ -83,8 +87,12 @@ public class ProducerApplication implements CommandLineRunner{
 
 ```properties
 ## application.properties
-spring.rocketmq.name-server=172.19.0.1:9876
+spring.rocketmq.name-server=127.0.0.1:9876
 ```
+
+> Note:
+> 
+> Maybe you need change `127.0.0.1:9876` with your real NameServer address for RocketMQ
 
 ```java
 @SpringBootApplication

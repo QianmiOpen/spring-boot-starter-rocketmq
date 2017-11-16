@@ -36,9 +36,13 @@
 
 ```properties
 ## application.properties
-spring.rocketmq.name-server=172.19.0.1:9876
+spring.rocketmq.name-server=127.0.0.1:9876
 spring.rocketmq.producer.group=my-group
 ```
+
+> 注意:
+> 
+> 请将上述示例配置中的`127.0.0.1:9876`替换成真实RocketMQ的NameServer地址与端口
 
 ```java
 @SpringBootApplication
@@ -85,6 +89,10 @@ public class ProducerApplication implements CommandLineRunner{
 ## application.properties
 spring.rocketmq.name-server=172.19.0.1:9876
 ```
+
+> 注意:
+> 
+> 请将上述示例配置中的`127.0.0.1:9876`替换成真实RocketMQ的NameServer地址与端口
 
 ```java
 @SpringBootApplication
