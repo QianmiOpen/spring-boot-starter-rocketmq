@@ -27,6 +27,8 @@ public interface RocketMQListenerContainer extends DisposableBean {
     /**
      * Setup the message listener to use. Throws an {@link IllegalArgumentException} if that message listener type is
      * not supported.
+     *
+     * @param messageListener see {@link RocketMQListener}
      */
     void setupMessageListener(RocketMQListener<?> messageListener);
 }

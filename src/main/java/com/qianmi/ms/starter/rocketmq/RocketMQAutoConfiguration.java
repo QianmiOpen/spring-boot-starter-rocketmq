@@ -22,10 +22,6 @@ import com.qianmi.ms.starter.rocketmq.annotation.RocketMQMessageListener;
 import com.qianmi.ms.starter.rocketmq.core.DefaultRocketMQListenerContainer;
 import com.qianmi.ms.starter.rocketmq.core.RocketMQListener;
 import com.qianmi.ms.starter.rocketmq.core.RocketMQTemplate;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.impl.MQClientAPIImpl;
@@ -50,6 +46,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.qianmi.ms.starter.rocketmq.core.DefaultRocketMQListenerContainerConstants.*;
 
@@ -96,9 +97,9 @@ public class RocketMQAutoConfiguration {
     @ConditionalOnBean(DefaultMQProducer.class)
     @ConditionalOnMissingBean(name = "rocketMQTemplate")
     public RocketMQTemplate rocketMQTemplate(DefaultMQProducer mqProducer,
-        @Autowired(required = false)
-        @Qualifier("rocketMQMessageObjectMapper")
-            ObjectMapper objectMapper) {
+                                             @Autowired(required = false)
+                                             @Qualifier("rocketMQMessageObjectMapper")
+                                                     ObjectMapper objectMapper) {
         RocketMQTemplate rocketMQTemplate = new RocketMQTemplate();
         rocketMQTemplate.setProducer(mqProducer);
         if (Objects.nonNull(objectMapper)) {
@@ -131,7 +132,7 @@ public class RocketMQAutoConfiguration {
 
         @Autowired(required = false)
         public ListenerContainerConfiguration(
-            @Qualifier("rocketMQMessageObjectMapper") ObjectMapper objectMapper) {
+                @Qualifier("rocketMQMessageObjectMapper") ObjectMapper objectMapper) {
             this.objectMapper = objectMapper;
         }
 

@@ -36,9 +36,9 @@ public @interface RocketMQMessageListener {
     /**
      * Consumers of the same role is required to have exactly same subscriptions and consumerGroup to correctly achieve
      * load balance. It's required and needs to be globally unique.
-     * </p>
      * <p>
      * See <a href="http://rocketmq.apache.org/docs/core-concept/">here</a> for further discussion.
+     * </p>
      */
     String consumerGroup();
 

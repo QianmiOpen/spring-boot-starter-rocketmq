@@ -19,9 +19,6 @@ package com.qianmi.ms.starter.rocketmq.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +39,10 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.Assert;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
+
+import java.nio.charset.Charset;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Helper class for RocketMQ sending Messages Created by aqlu on 2017/9/28.
@@ -70,14 +71,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * <p> Send message in synchronous mode. This method returns only when the sending procedure totally completes.
      * Reliable synchronous transmission is used in extensive scenes, such as important notification messages, SMS
      * notification, SMS marketing system, etc.. </p>
-     *
+     * <p>
      * <strong>Warn:</strong> this method has internal retry-mechanism, that is, internal implementation will retry
      * {@link DefaultMQProducer#getRetryTimesWhenSendFailed} times before claiming failure. As a result, multiple
      * messages may potentially delivered to broker(s). It's up to the application developers to resolve potential
      * duplication issue.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
+     * @param message     {@link org.springframework.messaging.Message}
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Message<?> message) {
@@ -88,8 +89,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSend(String, Message)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param timeout send timeout with millis
+     * @param message     {@link org.springframework.messaging.Message}
+     * @param timeout     send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Message<?> message, long timeout) {
@@ -115,7 +116,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSend(String, Message)}.
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
+     * @param payload     the Object to use as payload
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Object payload) {
@@ -126,8 +127,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSend(String, Object)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
-     * @param timeout send timeout with millis
+     * @param payload     the Object to use as payload
+     * @param timeout     send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSend(String destination, Object payload, long timeout) {
@@ -139,8 +140,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSend(String, Message)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param message     {@link org.springframework.messaging.Message}
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Message<?> message, String hashKey) {
@@ -151,9 +152,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSendOrderly(String, Message, String)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
-     * @param timeout send timeout with millis
+     * @param message     {@link org.springframework.messaging.Message}
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
+     * @param timeout     send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Message<?> message, String hashKey, long timeout) {
@@ -179,8 +180,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSend(String, Object)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param payload     the Object to use as payload
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Object payload, String hashKey) {
@@ -191,9 +192,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #syncSendOrderly(String, Object, String)} with send timeout specified in addition.
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
-     * @param timeout send timeout with millis
+     * @param payload     the Object to use as payload
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
+     * @param timeout     send timeout with millis
      * @return {@link SendResult}
      */
     public SendResult syncSendOrderly(String destination, Object payload, String hashKey, long timeout) {
@@ -204,10 +205,10 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSend(String, Message, SendCallback)} with send timeout specified in addition.
      *
-     * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
+     * @param destination  formats: `topicName:tags`
+     * @param message      {@link org.springframework.messaging.Message}
      * @param sendCallback {@link SendCallback}
-     * @param timeout send timeout with millis
+     * @param timeout      send timeout with millis
      */
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback, long timeout) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
@@ -227,15 +228,15 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * <p> Send message to broker asynchronously. asynchronous transmission is generally used in response time sensitive
      * business scenarios. </p>
-     *
+     * <p>
      * This method returns immediately. On sending completion, <code>sendCallback</code> will be executed.
-     *
+     * <p>
      * Similar to {@link #syncSend(String, Object)}, internal implementation would potentially retry up to {@link
      * DefaultMQProducer#getRetryTimesWhenSendAsyncFailed} times before claiming sending failure, which may yield
      * message duplication and application developers are the one to resolve this potential issue.
      *
-     * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
+     * @param destination  formats: `topicName:tags`
+     * @param message      {@link org.springframework.messaging.Message}
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback) {
@@ -245,10 +246,10 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSend(String, Object, SendCallback)} with send timeout specified in addition.
      *
-     * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
      * @param sendCallback {@link SendCallback}
-     * @param timeout send timeout with millis
+     * @param timeout      send timeout with millis
      */
     public void asyncSend(String destination, Object payload, SendCallback sendCallback, long timeout) {
         Message<?> message = this.doConvert(payload, null, null);
@@ -258,8 +259,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSend(String, Message, SendCallback)}.
      *
-     * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSend(String destination, Object payload, SendCallback sendCallback) {
@@ -270,14 +271,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #asyncSendOrderly(String, Message, String, SendCallback)} with send timeout specified in
      * addition.
      *
-     * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param destination  formats: `topicName:tags`
+     * @param message      {@link org.springframework.messaging.Message}
+     * @param hashKey      use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
-     * @param timeout send timeout with millis
+     * @param timeout      send timeout with millis
      */
     public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback,
-        long timeout) {
+                                 long timeout) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
             log.info("asyncSendOrderly failed. destination:{}, message is null ", destination);
             throw new IllegalArgumentException("`message` and `message.payload` cannot be null");
@@ -295,9 +296,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSend(String, Message, SendCallback)} with send orderly with hashKey by specified.
      *
-     * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param destination  formats: `topicName:tags`
+     * @param message      {@link org.springframework.messaging.Message}
+     * @param hashKey      use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback) {
@@ -307,9 +308,9 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSendOrderly(String, Message, String, SendCallback)}.
      *
-     * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
+     * @param hashKey      use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
      */
     public void asyncSendOrderly(String destination, Object payload, String hashKey, SendCallback sendCallback) {
@@ -319,14 +320,14 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Same to {@link #asyncSendOrderly(String, Object, String, SendCallback)} with send timeout specified in addition.
      *
-     * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
+     * @param hashKey      use this key to select queue. for example: orderId, productId ...
      * @param sendCallback {@link SendCallback}
-     * @param timeout send timeout with millis
+     * @param timeout      send timeout with millis
      */
     public void asyncSendOrderly(String destination, Object payload, String hashKey, SendCallback sendCallback,
-        long timeout) {
+                                 long timeout) {
         Message<?> message = this.doConvert(payload, null, null);
         asyncSendOrderly(destination, message, hashKey, sendCallback, timeout);
     }
@@ -334,11 +335,11 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     /**
      * Similar to <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a>, this method won't wait for
      * acknowledgement from broker before return. Obviously, it has maximums throughput yet potentials of message loss.
-     *
+     * <p>
      * One-way transmission is used for cases requiring moderate reliability, such as log collection.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
+     * @param message     {@link org.springframework.messaging.Message}
      */
     public void sendOneWay(String destination, Message<?> message) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
@@ -359,7 +360,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #sendOneWay(String, Message)}
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
+     * @param payload     the Object to use as payload
      */
     public void sendOneWay(String destination, Object payload) {
         Message<?> message = this.doConvert(payload, null, null);
@@ -370,8 +371,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #sendOneWay(String, Message)} with send orderly with hashKey by specified.
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
-     * @param hashKey use this key to select queue. for example: orderId, productId ...
+     * @param message     {@link org.springframework.messaging.Message}
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
      */
     public void sendOneWayOrderly(String destination, Message<?> message, String hashKey) {
         if (Objects.isNull(message) || Objects.isNull(message.getPayload())) {
@@ -392,7 +393,8 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Same to {@link #sendOneWayOrderly(String, Message, String)}
      *
      * @param destination formats: `topicName:tags`
-     * @param payload the Object to use as payload
+     * @param payload     the Object to use as payload
+     * @param hashKey     use this key to select queue. for example: orderId, productId ...
      */
     public void sendOneWayOrderly(String destination, Object payload, String hashKey) {
         Message<?> message = this.doConvert(payload, null, null);
@@ -413,7 +415,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
      * Convert spring message to rocketMQ message
      *
      * @param destination formats: `topicName:tags`
-     * @param message {@link org.springframework.messaging.Message}
+     * @param message     {@link org.springframework.messaging.Message}
      * @return instance of {@link org.apache.rocketmq.common.message.Message}
      */
     private org.apache.rocketmq.common.message.Message convertToRocketMsg(String destination, Message<?> message) {
@@ -464,12 +466,12 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
             rocketMsg.setWaitStoreMsgOK(waitStoreMsgOK);
 
             headers.entrySet().stream()
-                .filter(entry -> !Objects.equals(entry.getKey(), MessageConst.PROPERTY_KEYS)
-                    && !Objects.equals(entry.getKey(), "FLAG")
-                    && !Objects.equals(entry.getKey(), "WAIT_STORE_MSG_OK")) // exclude "KEYS", "FLAG", "WAIT_STORE_MSG_OK"
-                .forEach(entry -> {
-                    rocketMsg.putUserProperty("USERS_" + entry.getKey(), String.valueOf(entry.getValue())); // add other properties with prefix "USERS_"
-                });
+                    .filter(entry -> !Objects.equals(entry.getKey(), MessageConst.PROPERTY_KEYS)
+                            && !Objects.equals(entry.getKey(), "FLAG")
+                            && !Objects.equals(entry.getKey(), "WAIT_STORE_MSG_OK")) // exclude "KEYS", "FLAG", "WAIT_STORE_MSG_OK"
+                    .forEach(entry -> {
+                        rocketMsg.putUserProperty("USERS_" + entry.getKey(), String.valueOf(entry.getValue())); // add other properties with prefix "USERS_"
+                    });
 
         }
 
