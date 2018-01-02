@@ -93,6 +93,32 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     @Getter
     private int consumeThreadMax = 64;
 
+    /**
+     * Flow control threshold on topic level, default value is -1(Unlimited)
+     * <p>
+     * The value of {@code pullThresholdForQueue} will be overwrote and calculated based on
+     * {@code pullThresholdForTopic} if it is't unlimited
+     * <p>
+     * For example, if the value of pullThresholdForTopic is 1000 and 10 message queues are assigned to this consumer,
+     * then pullThresholdForQueue will be set to 100
+     */
+    @Setter
+    @Getter
+    private int pullThresholdForTopic = -1;
+
+    /**
+     * Limit the cached message size on topic level, default value is -1 MiB(Unlimited)
+     * <p>
+     * The value of {@code pullThresholdSizeForQueue} will be overwrote and calculated based on
+     * {@code pullThresholdSizeForTopic} if it is't unlimited
+     * <p>
+     * For example, if the value of pullThresholdSizeForTopic is 1000 MiB and 10 message queues are
+     * assigned to this consumer, then pullThresholdSizeForQueue will be set to 100 MiB
+     */
+    @Setter
+    @Getter
+    private int pullThresholdSizeForTopic = -1;
+
     @Getter
     @Setter
     private String charset = "UTF-8";
@@ -117,7 +143,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         this.setStarted(false);
         if (Objects.nonNull(consumer)) {
             consumer.shutdown();
@@ -261,6 +287,8 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         if (consumeThreadMax < consumer.getConsumeThreadMin()) {
             consumer.setConsumeThreadMin(consumeThreadMax);
         }
+        consumer.setPullThresholdForTopic(pullThresholdForTopic);
+        consumer.setPullThresholdSizeForTopic(pullThresholdSizeForTopic);
 
         consumer.setMessageModel(messageModel);
 
@@ -276,7 +304,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         }
 
         switch (consumeMode) {
-            case Orderly:
+            case ORDERLY:
                 consumer.setMessageListener(new DefaultMessageListenerOrderly());
                 break;
             case CONCURRENTLY:

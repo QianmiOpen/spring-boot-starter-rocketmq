@@ -29,5 +29,5 @@ public enum ConsumeMode {
     /**
      * receive asynchronously delivered messages orderly. one queue, one thread
      */
-    Orderly
+    ORDERLY
 }

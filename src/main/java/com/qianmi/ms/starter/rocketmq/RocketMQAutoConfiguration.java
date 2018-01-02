@@ -141,7 +141,7 @@ public class RocketMQAutoConfiguration {
         }
 
         @Override
-        public void afterPropertiesSet() throws Exception {
+        public void afterPropertiesSet() {
             Map<String, Object> beans = this.applicationContext.getBeansWithAnnotation(RocketMQMessageListener.class);
 
             if (Objects.nonNull(beans)) {
@@ -169,6 +169,8 @@ public class RocketMQAutoConfiguration {
             beanBuilder.addPropertyValue(PROP_SELECTOR_EXPRESS, environment.resolvePlaceholders(annotation.selectorExpress()));
             beanBuilder.addPropertyValue(PROP_SELECTOR_TYPE, annotation.selectorType());
             beanBuilder.addPropertyValue(PROP_ROCKETMQ_LISTENER, rocketMQListener);
+            beanBuilder.addPropertyValue(PROP_PULL_THRESHOLD_FOR_TOPIC, annotation.pullThresholdForTopic());
+            beanBuilder.addPropertyValue(PROP_PULL_THRESHOLD_SIZE_FOR_TOPIC, annotation.pullThresholdSizeForTopic());
             if (Objects.nonNull(objectMapper)) {
                 beanBuilder.addPropertyValue(PROP_OBJECT_MAPPER, objectMapper);
             }

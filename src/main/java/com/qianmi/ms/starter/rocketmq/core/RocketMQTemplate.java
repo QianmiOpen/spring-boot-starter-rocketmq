@@ -486,7 +486,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
             try {
                 content = objectMapper.writeValueAsString(payload);
             } catch (JsonProcessingException e) {
-                log.info("convert to payload to String failed. payload:{}", payload);
+                log.info("convert payload to String failed. payload:{}", payload);
                 throw new RuntimeException("convert to payload to String failed.", e);
             }
         }
@@ -505,7 +505,7 @@ public class RocketMQTemplate extends AbstractMessageSendingTemplate<String> imp
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         if (Objects.nonNull(producer)) {
             producer.shutdown();
         }

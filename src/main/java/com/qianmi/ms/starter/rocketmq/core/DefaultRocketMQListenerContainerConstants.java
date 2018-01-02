@@ -31,5 +31,7 @@ public final class DefaultRocketMQListenerContainerConstants {
     public static final String PROP_SELECTOR_TYPE = "selectorType";
     public static final String PROP_ROCKETMQ_LISTENER = "rocketMQListener";
     public static final String PROP_OBJECT_MAPPER = "objectMapper";
+    public static final String PROP_PULL_THRESHOLD_FOR_TOPIC = "pullThresholdForTopic";
+    public static final String PROP_PULL_THRESHOLD_SIZE_FOR_TOPIC = "pullThresholdSizeForTopic";
     public static final String METHOD_DESTROY = "destroy";
 }
