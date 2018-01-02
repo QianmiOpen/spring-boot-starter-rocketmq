@@ -25,6 +25,7 @@
 
     <name>Spring Boot Rocket Starter</name>
     <description>Starter for messaging using Apache RocketMQ</description>
+    <url>https://github.com/QianmiOpen/spring-boot-starter-rocketmq</url>
 
     <organization>
         <name>Jiangsu QianMi Network Technology Co., Ltd.</name>
