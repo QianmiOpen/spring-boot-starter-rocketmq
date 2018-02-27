@@ -1,5 +1,7 @@
 # spring-boot-starter-rocketmq
 
+**This project has been contributed to apache，please see：[apache/rocketmq-externals/rocketmq-spring-boot-starter](https://github.com/apache/rocketmq-externals/tree/master/rocketmq-spring-boot-starter)**
+
 [中文](./README_zh_CN.md)
 
 [![Maven Central](https://img.shields.io/badge/maven%20central-1.1.0--RELEASE-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.qianmi%22%20AND%20a%3A%22spring-boot-starter-rocketmq%22)
