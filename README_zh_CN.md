@@ -28,7 +28,7 @@
 ```xml
 <!--在pom.xml中添加依赖-->
 <dependency>
-    <group>com.qianmi</group>
+    <groupId>com.qianmi</groupId>
     <artifactId>spring-boot-starter-rocketmq</artifactId>
     <version>1.1.0-RELEASE</version>
 </dependency>
